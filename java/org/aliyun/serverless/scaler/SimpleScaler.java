@@ -207,6 +207,7 @@ public class SimpleScaler implements Scaler {
                         if (idleDuration > config.getIdleDurationBeforeGC().toMillis()) {
                             String reason = String.format("Idle duration: %dms, exceed configured duration: %dms",
                                     idleDuration, config.getIdleDurationBeforeGC().toMillis());
+                            // 如果是warmup instance，那么回收后，重新创建一个新的实例出来。
                             CompletableFuture.runAsync(() -> deleteSlot(Context.current(), instance, UUID.randomUUID().toString(), reason));
                             logger.info(String.format("Instance %s of app %s is GCed due to idle for %dms",
                                     instance.getID(), instance.getMeta().getKey(), idleDuration));

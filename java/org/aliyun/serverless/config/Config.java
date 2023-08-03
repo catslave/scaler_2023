@@ -7,12 +7,14 @@ public class Config {
     private Integer platformPort;
     private Duration gcInterval;
     private Duration idleDurationBeforeGC;
+    private Boolean warmUp; // 这个作为config的参数又不适合，这里无法指定哪些实例进行预热，只能全部预热？
 
-    public Config(String platformHost, Integer platformPort, Duration gcInterval, Duration idleDurationBeforeGC) {
+    public Config(String platformHost, Integer platformPort, Duration gcInterval, Duration idleDurationBeforeGC, Boolean warmUp) {
         this.platformHost = platformHost;
         this.platformPort = platformPort;
         this.gcInterval = gcInterval;
         this.idleDurationBeforeGC = idleDurationBeforeGC;
+        this.warmUp = warmUp;
     }
 
     public String getPlatformHost() {
@@ -47,10 +49,19 @@ public class Config {
         this.idleDurationBeforeGC = idleDurationBeforeGC;
     }
 
+    public Boolean getWarmUp() {
+        return warmUp;
+    }
+
+    public void setWarmUp(Boolean warmUp) {
+        this.warmUp = warmUp;
+    }
+
     public static final Config DEFAULT_CONFIG = new Config(
             "127.0.0.1",
             50051,
             Duration.ofSeconds(10),
-            Duration.ofMinutes(5)
+            Duration.ofMinutes(5),
+            true
     );
 }
